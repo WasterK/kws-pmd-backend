@@ -98,8 +98,11 @@ def get_device_data(site_id, device_id):
                         response = requests.get(url=f"{device.get('device_url')}/get-data/0")
                         response.raise_for_status()  # Raise an error for bad status codes
                         
+                        device_data = response.json()
+                        if device_data:
+                            device_data['device_id'] = device_id
                         # Return the fetched data
-                        return response.json()  # Assuming the device returns JSON
+                        return device_data  #device_data Assuming the device returns JSON
                     except requests.exceptions.RequestException as e:
                         # Handle request errors
                         return jsonify({
