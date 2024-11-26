@@ -94,15 +94,26 @@ def get_device_data(site_id, device_id):
             for device in site.get('devices'):
                 if device.get("device_id") == device_id:
                     try:
-                        # Fetch data from the device
-                        response = requests.get(url=f"{device.get('device_url')}/get-data/0")
-                        response.raise_for_status()  # Raise an error for bad status codes
+                        # # Fetch data from the device
+                        # response = requests.get(url=f"{device.get('device_url')}/get-data/0")
+                        # response.raise_for_status()  # Raise an error for bad status codes
                         
-                        device_data = response.json()
+                        # device_data = response.json()
+                        device_data = {
+                                        "created_on": "2024-09-30 15:58:26",
+                                        "current_count": 200,
+                                        "location_id": 2,
+                                        "operation": "Assembly",
+                                        "operator_name": "John Doe",
+                                        "part_name": "Connector",
+                                        "part_number": "HS324",
+                                        "target": 10000,
+                                        "updated_on": "2024-11-24 13:44:05"
+                                    }
                         if device_data:
                             device_data['device_id'] = device_id
                         # Return the fetched data
-                        return device_data  #device_data Assuming the device returns JSON
+                        return jsonify(device_data)  #device_data Assuming the device returns JSON
                     except requests.exceptions.RequestException as e:
                         # Handle request errors
                         return jsonify({
