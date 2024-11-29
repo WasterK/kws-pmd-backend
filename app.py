@@ -54,6 +54,39 @@ sites_data = [
     }
 ]
 
+DUMMY_DEVICE_DATA = {   101: {
+                            "created_on": "2024-09-30 15:58:26",
+                            "current_count": 354,
+                            "location_id": 2,
+                            "operation": "Punching",
+                            "operator_name": "Robin",
+                            "part_name": "Harness",
+                            "part_number": "HS324",
+                            "target": 7000,
+                            "updated_on": "2024-11-24 13:44:05"
+                        },
+                        102: {
+                            "created_on": "2024-09-30 15:58:26",
+                            "current_count": 1668,
+                            "location_id": 1,
+                            "operation": "Assembly",
+                            "operator_name": "John Doe",
+                            "part_name": "Connector",
+                            "part_number": "CN134",
+                            "target": 10000,
+                            "updated_on": "2024-11-24 13:44:05"
+                        },
+                        103: {
+                            "created_on": "2024-09-30 15:58:26",
+                            "current_count": 77,
+                            "location_id": 10,
+                            "operation": "Packing",
+                            "operator_name": "Rakesh",
+                            "part_name": "Asset Box",
+                            "part_number": "KT245",
+                            "target": 200,
+                        }}
+
 @app.route('/', methods=['GET'])
 def home():
     return jsonify({'message': 'Welcome to PMD Backend API'})
@@ -99,19 +132,10 @@ def get_device_data(site_id, device_id):
                         # response.raise_for_status()  # Raise an error for bad status codes
                         
                         # device_data = response.json()
-                        device_data = {
-                                        "created_on": "2024-09-30 15:58:26",
-                                        "current_count": 200,
-                                        "location_id": 2,
-                                        "operation": "Assembly",
-                                        "operator_name": "John Doe",
-                                        "part_name": "Connector",
-                                        "part_number": "HS324",
-                                        "target": 10000,
-                                        "updated_on": "2024-11-24 13:44:05"
-                                    }
+                        device_data = DUMMY_DEVICE_DATA.get(device_id)
                         if device_data:
                             device_data['device_id'] = device_id
+                            device_data['site_id'] = site_id
                         # Return the fetched data
                         return jsonify(device_data)  #device_data Assuming the device returns JSON
                     except requests.exceptions.RequestException as e:
