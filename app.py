@@ -23,13 +23,13 @@ sites_data = [
             {
                 "device_id": 102,
                 "device_name": "PLD 2",
-                "device_url" : 'https://pld1-akauto.kirankhairehomelab.online',
+                "device_url" : 'https://pld2-akauto.kirankhairehomelab.online',
                 "last_seen": "2024-11-14T14:30:00Z"
             },
             {
                 "device_id": 103,
                 "device_name": "PLD 3",
-                "device_url" : 'https://pld1-akauto.kirankhairehomelab.online',
+                "device_url" : 'https://pld3-akauto.kirankhairehomelab.online',
                 "last_seen": "2024-11-13T18:00:00Z"
             }
         ],
@@ -127,16 +127,18 @@ def get_device_data(site_id, device_id):
             for device in site.get('devices'):
                 if device.get("device_id") == device_id:
                     try:
-                        # # Fetch data from the device
-                        # response = requests.get(url=f"{device.get('device_url')}/get-data/0")
-                        # response.raise_for_status()  # Raise an error for bad status codes
+                        # Fetch data from the device
+                        response = requests.get(url=f"{device.get('device_url')}/get-data/0")
+                        response.raise_for_status()  # Raise an error for bad status codes
                         
-                        # device_data = response.json()
-                        device_data = DUMMY_DEVICE_DATA.get(device_id)
-                        if device_data:
-                            device_data['device_id'] = device_id
-                            device_data['site_id'] = site_id
+                        device_data = response.json()
+
+                        # device_data = DUMMY_DEVICE_DATA.get(device_id)
+                        # if device_data:
+                        #     device_data['device_id'] = device_id
+                        #     device_data['site_id'] = site_id
                         # Return the fetched data
+                        
                         return jsonify(device_data)  #device_data Assuming the device returns JSON
                     except requests.exceptions.RequestException as e:
                         # Handle request errors
